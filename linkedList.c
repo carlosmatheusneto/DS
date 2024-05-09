@@ -1,16 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-typedef struct node{
-    int data;
-    struct node *link;
-} node;
-
-typedef struct{
-    node *head;
-    node *tail;
-    int size;
-} linkedList;
+#include "linkedList.h"
 
 void pushFrontLinkedList(linkedList *list, int data){
     node *temp = (node*)malloc(sizeof(node));
@@ -58,6 +46,7 @@ void insertLinkedList(linkedList *list, int data, int position){
     if(position == 1){
         temp->link = temp2;
         list->head = temp;
+        list->size++;
         return;
     }
     while(i < position - 2){
@@ -69,8 +58,26 @@ void insertLinkedList(linkedList *list, int data, int position){
     list->size++;
 };
 
-void deleteLinkedList(linkedList *list, int position){
-
+void removeLinkedList(linkedList *list, int position){
+    if((position > list->size) | (position <= 0)){
+        return;
+    }
+    node *temp = list->head;
+    int i = 0;
+    if(position == 1){
+        list->head = list->head->link;
+        free(temp);
+        list->size--;
+        return;
+    }
+    node *temp2;
+    while(i < position - 2){
+        temp2 = temp->link;
+        i++;
+    }
+    temp->link = temp2->link;
+    free(temp2);
+    list->size--; 
 }
 
 void printLinkedList(linkedList *list){
@@ -80,22 +87,4 @@ void printLinkedList(linkedList *list){
         temp = temp->link;
     }
     printf("\n");
-}
-
-
-int main(){
-    linkedList testList = { 
-        .head = NULL,
-        .tail = NULL,
-        .size = 0
-    };
-    pushFrontLinkedList(&testList, 1);
-    pushFrontLinkedList(&testList, 2);
-    pushFrontLinkedList(&testList, 3);
-    pushFrontLinkedList(&testList, 4);
-    pushFrontLinkedList(&testList, 5);
-    insertLinkedList(&testList, 15, 2);
-    printLinkedList(&testList);
-    printf("size : %d\n", testList.size);
-    return 0;
 }
