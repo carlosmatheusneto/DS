@@ -3,11 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
-typedef struct node{
-    int data;
-    struct node *link;
-} node;
+#include "components/node.h"
 
 typedef struct{
     node *head;
